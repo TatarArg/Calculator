@@ -1,0 +1,72 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="task">
+        <div class="input-type">
+            <label>
+                <input type="radio" name="inputType" value="hypotenuseAngle" checked> 
+                Гипотенуза и угол
+            </label>
+            <label>
+                <input type="radio" name="inputType" value="twoLegs"> 
+                Два катета
+            </label>
+            <button type="button" onclick="switchInputType()">Показать</button>
+        </div>
+
+        <img id="triangleImage" src="photo/Треугольник с гипотенузой и углом.png">
+
+        <div class="input">
+            <form>
+                <div id="hypotenuseAngleInputs">
+                    <p>
+                        <label>Гипотенуза =
+                            <input type="number" id="input1" min=0 max=200>
+                        </label>
+                    </p>
+                    <p>
+                        <label>Угол =
+                            <input type="number" id="input2" min=0 max=90>
+                        </label>
+                    </p>
+                </div>
+
+
+                <div id="twoLegsInputs" style="display:none">
+                    <p>
+                        <label>Катет a =
+                            <input type="number" id="inputA" min=0 max=200>
+                        </label>
+                    </p>
+                    <p>
+                        <label>Катет b =
+                            <input type="number" id="inputB" min=0 max=200>
+                        </label>
+                    </p>
+                </div>
+
+
+                <p>
+                    <span id="findLabel">Найти:</span> <br>
+                    <label><input type="checkbox" id="task1"> медианы</label><br>
+                    <label><input type="checkbox" id="task2"> высота</label><br>
+                    <label><input type="checkbox" id="task3"> радиус описанной окружности</label><br>
+                    <label><input type="checkbox" id="task4"> площадь</label>
+                </p>
+             
+
+
+                <p>
+                    <input type="button" value="Вычислить" onClick="calculate(this.form)">
+                    <input type="button" value="Очистить" onClick="clearData(this.form)">
+                </p>
+            </form>
+        </div>
+        <div id="output"></div>
+    </div>
+</body>
+<script src="program.js"></script>
+</html>

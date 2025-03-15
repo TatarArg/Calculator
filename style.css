@@ -1,0 +1,15 @@
+.error {
+    border: solid thin red;
+}
+
+.errorText{
+    color: red;
+}
+
+body {
+    background: white;
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+}
+
