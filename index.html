@@ -34,7 +34,6 @@
                     </p>
                 </div>
 
-
                 <div id="twoLegsInputs" style="display:none">
                     <p>
                         <label>Катет a =
@@ -48,16 +47,15 @@
                     </p>
                 </div>
 
-
                 <p>
                     <span id="findLabel">Найти:</span> <br>
-                    <label><input type="checkbox" id="task1"> медианы</label><br>
-                    <label><input type="checkbox" id="task2"> высота</label><br>
-                    <label><input type="checkbox" id="task3"> радиус описанной окружности</label><br>
-                    <label><input type="checkbox" id="task4"> площадь</label>
+                    <select id="taskSelect" multiple>
+                        <option value="task1">Медианы</option>
+                        <option value="task2">Высота</option>
+                        <option value="task3">Радиус описанной окружности</option>
+                        <option value="task4">Площадь</option>
+                    </select>
                 </p>
-             
-
 
                 <p>
                     <input type="button" value="Вычислить" onClick="calculate(this.form)">

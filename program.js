@@ -2,23 +2,29 @@ function calculate(data) {
     let inputType = document.querySelector('input[name="inputType"]:checked').value;
     let results = {}; 
 
-
-    let hasSelectedTask = ['task1', 'task2', 'task3', 'task4'].some(task => data[task].checked);
-    if (!hasSelectedTask) {
+    let selectedTasks = [];
+    let options = data.taskSelect.selectedOptions;
+    for (let i = 0; i < options.length; i++) {
+        selectedTasks.push(options[i].value);
+    }
+    
+    if (selectedTasks.length === 0) {
         document.getElementById('findLabel').classList.add("errorText");
         flag = false;
+    } else {
+        document.getElementById('findLabel').classList.remove("errorText");
     }
 
     if (inputType === "hypotenuseAngle") { 
-        results = mathWithHypotenuseAngle(data);
+        results = mathWithHypotenuseAngle(data, selectedTasks);
     } else { 
-        results = mathWithTwoKatets(data);
+        results = mathWithTwoKatets(data, selectedTasks);
     }
 
-    displayResults(results);
+    displayResults(results, selectedTasks);
 }
 
-function mathWithHypotenuseAngle(data){
+function mathWithHypotenuseAngle(data, selectedTasks){
     let c = parseFloat(data.input1.value);
     let angle = parseFloat(data.input2.value);
     let results = {};
@@ -36,12 +42,11 @@ function mathWithHypotenuseAngle(data){
 
     if (!flag) return;
 
-
     let rad = angle * Math.PI / 180;
     let a = c * Math.sin(rad);
     let b = c * Math.cos(rad);
 
-    if (data.task1.checked) {
+    if (selectedTasks.includes("task1")) {
         results.medians = {
             m_a: Math.sqrt(b*b + (a/2)**2),
             m_b: Math.sqrt(a*a + (b/2)**2),
@@ -49,22 +54,22 @@ function mathWithHypotenuseAngle(data){
         };
     }
     
-    if (data.task2.checked) {
+    if (selectedTasks.includes("task2")) {
         results.height = (a*b)/c;
     }
     
-    if (data.task3.checked) {
+    if (selectedTasks.includes("task3")) {
         results.circumradius = c/2;
     }
     
-    if (data.task4.checked) {
+    if (selectedTasks.includes("task4")) {
         results.area = (a*b)/2;
     }
 
     return results;
 }
 
-function mathWithTwoKatets(data){
+function mathWithTwoKatets(data, selectedTasks){
     let a = parseFloat(data.inputA.value);
     let b = parseFloat(data.inputB.value);
     let flag = true;
@@ -83,7 +88,7 @@ function mathWithTwoKatets(data){
 
     let c = Math.sqrt(a*a + b*b);
     
-    if (data.task1.checked) {
+    if (selectedTasks.includes("task1")) {
         results.medians = {
             m_a: Math.sqrt(b*b + (a/2)**2),
             m_b: Math.sqrt(a*a + (b/2)**2),
@@ -91,31 +96,27 @@ function mathWithTwoKatets(data){
         };
     }
     
-    if (data.task2.checked) {
+    if (selectedTasks.includes("task2")) {
         results.height = (a*b)/c;
     }
     
-    if (data.task3.checked) {
+    if (selectedTasks.includes("task3")) {
         results.circumradius = c/2;
     }
     
-    if (data.task4.checked) {
+    if (selectedTasks.includes("task4")) {
         results.area = (a*b)/2;
     }
 
     return results;
 }
 
-
 function clearData(form) {
     [form.input1, form.input2, form.inputA, form.inputB].forEach(input => {
         if (input) input.value = '';
     });
 
-    ['task1', 'task2', 'task3', 'task4'].forEach(task => {
-        form[task].checked = false;
-    });
-
+    form.taskSelect.selectedIndex = -1;
 
     document.getElementById('output').innerHTML = '';
     document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
@@ -136,15 +137,14 @@ function switchInputType() {
             : "photo/Треугольник и 2 катета.png";
     
     clearData(document.querySelector('form'));
-
 }
 
-function displayResults(results) {
+function displayResults(results, selectedTasks) {
     let flag = false;
     const output = document.getElementById('output');
     output.innerHTML = '';
     
-    if (results.medians) {
+    if (results.medians && selectedTasks.includes("task1")) {
         output.innerHTML += `
             <p>Медианы:
             <br>m<sub>a</sub> = ${results.medians.m_a.toFixed(2)}
@@ -154,17 +154,17 @@ function displayResults(results) {
         flag = true;
     }
     
-    if (results.height) {
+    if (results.height && selectedTasks.includes("task2")) {
         output.innerHTML += `<p>Высота: ${results.height.toFixed(2)}</p>`;
         flag = true;
     }
     
-    if (results.circumradius) {
+    if (results.circumradius && selectedTasks.includes("task3")) {
         output.innerHTML += `<p>Радиус описанной окружности: ${results.circumradius.toFixed(2)}</p>`;
         flag = true;
     }
     
-    if (results.area) {
+    if (results.area && selectedTasks.includes("task4")) {
         output.innerHTML += `<p>Площадь: ${results.area.toFixed(2)}</p>`;
         flag = true;
     }
@@ -175,7 +175,6 @@ function displayResults(results) {
         output.innerHTML = '<p>Результаты:</p>' + output.innerHTML;
     }
 }
-
 
 document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener('focus', function() {
